@@ -1,0 +1,67 @@
+
+v0.1
+ - Initial release
+
+v0.2 (25.12.2014)
+ - Added variants of spawning objects/wrecks
+ - Fixed missions spawning outside of map
+ - Added support for custom Islands like Chernarus
+ - Fixed AI walking away from the objective
+ - Fixed AI not reacting when players present
+ - Added AI walking around objectives instead of standing around (Doge says: Wow, much real, such atmosphere, so intense)
+ - Added new Mission timeout setting in "initMissions.sqf"
+ - Some minor code and performance improvements
+
+v0.3 (28.12.2014)
+ - AI are more randomized
+ - Changed AI loadout
+ - Changed crate loadout (loot)
+ - Changed number of AI at missions (more =equals better loot)
+ - AI are stronger and smarter
+ - AI have two or four (depending on group size) soldiers with LMG and RocketLauncher
+ - Overall performance increased
+ - Many, many script changes, new functions, etc.
+
+v0.4 (29.12.2014)
+ - Added EPOCH weapons to loot
+ - Randomized AI gear
+ - AI now deletes RL and other unwanted weapons when killed
+   (can be changed in initMissions.sqf)
+ - AI reacting to snipers (when shot from far away)
+ - Exceptions for BE filters updated
+ - Made some changes to loot in crates
+ - All FirstAidKits are replaced with epochs "FAK"
+
+v0.5.1 (30.12.2014)
+ - Added Mission end notifications
+ - Added sounds when a mission starts or ends
+ - Made the AI react directly to any possible threads
+ - Fixed createVehicle Restriction kick (one BE filter was wrong)
+
+v0.6 (03.01.2015)
+ - Added new Outposts for the bandit camp missions
+ - Added new Option (minimum players required for mission start)
+ - Added a 2 minutes delay until mission script starts checking for players
+ - Added a small advertisement (can be removed from the init.sqf)
+ - Changed clientside AI visibility check
+ - Changed crates/boxes loadout
+ - Cleaned up some of the code
+
+v0.6.2 (04.01.2014)
+ - BE filter update required (only scripts.txt)
+ - Added a chance (percentage) for AI dropping their gear when killed (init.sqf must be updated)
+ - Added a mission cleanup timer (deleting all mission objects, including dead AI)
+ - Changed some scripts, added better debug options and new functions
+ - Added small script performance and safety improvements
+ - Lowered outer search radius for mission spawn position by 10%
+ - Changed mission spawn position search to more flat terrain
+
+v0.7 (07.01.2014)
+ - Fixed: Client got the same AI assigned multiple times.
+ - Fixed: Repeating missions (the same mission can no longer spawn twice in a row).
+ - Fixed: Missions were spawning in or near water (added additional check).
+ - Fixed: Crates moved away from missions do no longer despawn on mission cleanup.
+ - Changed: Supply Van mission spawns only basebuilding loot (heavily randomized).
+ - Changed: Minimum players to start the missions is now 1 by default.
+ - Changed: Dead players can now prevent a mission from time out as long as they don't respawn.
+ - Added: AllowPlayerDamage functionality (for future use with serverside AI).
