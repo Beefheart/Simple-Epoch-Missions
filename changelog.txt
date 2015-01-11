@@ -56,7 +56,7 @@ v0.6.2 (04.01.2014)
  - Lowered outer search radius for mission spawn position by 10%
  - Changed mission spawn position search to more flat terrain
 
-v0.7 (07.01.2014)
+v0.7.1 (07.01.2014)
  - Fixed: Client got the same AI assigned multiple times.
  - Fixed: Repeating missions (the same mission can no longer spawn twice in a row).
  - Fixed: Missions were spawning in or near water (added additional check).
@@ -65,3 +65,4 @@ v0.7 (07.01.2014)
  - Changed: Minimum players to start the missions is now 1 by default.
  - Changed: Dead players can now prevent a mission from time out as long as they don't respawn.
  - Added: AllowPlayerDamage functionality (for future use with serverside AI).
+ - Fixed: AllowPlayerDamage not fully working.

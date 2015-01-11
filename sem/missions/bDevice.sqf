@@ -17,20 +17,20 @@ _missionObjects pushBack _wreck;
 _wreck setDir (random 360);
 _wreck setPos _pos;
 
+_camonet = createVehicle ["CamoNet_INDP_open_F",_pos,[], 0, "NO_COLLIDE"];
+_missionObjects pushBack _camonet;
+_camonet setDir (getDir _wreck);
+_camonet setPos _pos;
+
 _boxPos = (_wreck modelToWorld [4,0,0]);
 _boxPos set [2,0];
-_box1 = createVehicle ["CargoNet_01_box_F", _boxPos, [], 0, "CAN_COLLIDE"];
+_box1 = createVehicle ["CargoNet_01_box_F", _boxPos, [], 0, "NO_COLLIDE"];
 _missionObjects pushBack _box1;
 _box1 setDir (getDir _wreck);
 _box1 setPos _boxPos;
 
 clearWeaponCargoGlobal _box1;
 clearMagazineCargoGlobal _box1;
-
-_camonet = createVehicle ["CamoNet_INDP_open_F",_pos,[], 0, "NO_COLLIDE"];
-_missionObjects pushBack _camonet;
-_camonet setDir (getDir _wreck);
-_camonet setPos _pos;
 
 _group = [_pos,(5+(random 2))] call SEM_fnc_spawnAI;
 {_missionObjects pushBack _x}forEach units _group;

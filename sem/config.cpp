@@ -12,7 +12,8 @@ class CfgFunctions {
 		class main {
 			file = "sem";
 			class init {
-				postInit = 1;
+				preInit = 1;
+				//postInit = 1;
 			};
 		};
 
