@@ -1,7 +1,7 @@
 /*
 	EMS Mission end condition
 	
-	_return = [_pos,_group,_start,_timeout,[_obj1,_obj2,_obj3]]call SEM_fnc_endCondition;
+	_return = [_pos,_units,_start,_timeout,[_obj1,_obj2,_obj3]]call SEM_fnc_endCondition;
 	
 	Returns:
 	 0 = false (default when no condition is met)
@@ -10,13 +10,14 @@
 	 3 = AI is dead
 	
 */
-private["_pos","_group","_start","_timeOut","_objects","_return","_playerPresent"];
+private["_pos","_units","_start","_timeOut","_objects","_return","_playerPresent"];
 
 _pos = _this select 0;
-_group = _this select 1;
+_units = _this select 1;
 _start = _this select 2;
 _timeOut = _this select 3;
-if(count _this > 4)then[{_objects = _this select 4},{_objects = []}];
+_missionID = _this select 4;
+if(count _this > 5)then[{_objects = _this select 5},{_objects = []}];
 
 
 _return = 0;
@@ -29,15 +30,18 @@ if(_timeOut > 0)then{ //Mission time out possible
 			if(isPlayer _x && _x distance _pos < 500)exitwith{_playerPresent = true};
 		}forEach (if(isMultiplayer)then[{playableUnits},{allUnits}]); 	//(_pos nearEntities [["Epoch_Man_base_F","Epoch_Female_base_F"], 250]);	//"Epoch_Male_F","Epoch_Female_F"
 		if(!_playerPresent)then{_return = 1};
+		call compile format["SEM_mission_%1_return = 1;", _missionID];
 	};
 };
 
 if(_return < 1 && count _objects > 0)then{
 	if({damage _x == 1}count _objects == count _objects)then{_return = 2};
+	call compile format["SEM_mission_%1_return = 2;", _missionID];
 };
 	
 if(_return < 2)then{
-	if({alive _x} count units _group < 1)then{_return = 3};
+	if({alive _x} count _units < 1)then{_return = 3};
+	call compile format["SEM_mission_%1_return = 3;", _missionID];
 };
 
 _return

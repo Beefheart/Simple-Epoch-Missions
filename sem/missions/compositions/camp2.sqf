@@ -29,8 +29,8 @@ _objs =
 	["Land_HBarrierWall_corridor_F",[-10.8281,2.49219,-6.7234e-005],1.70905,1,0],
 	["Land_HBarrierWall_corridor_F",[2.61914,11.1465,2.38419e-006],271.076,1,0],
 	["Land_HBarrierWall_corner_F",[-8.21289,-9.62695,4.76837e-007],181.676,1,0],	
-	["Pelican_EPOCH",[4.97461,-5.53125,0],270.708,1,0,"[_this,2]call SEM_fnc_boxLoot"],
+	["Box_NATO_WpsSpecial_F",[4.97461,-5.53125,0],270.708,1,0,"[_this,2]call SEM_fnc_boxLoot"],
 	["Land_MetalCase_01_large_F",[-7.32031,-8.11719,1.19209e-006],132.164,1,0,"[_this,1]call SEM_fnc_boxLoot"],
-	["CargoNet_01_box_F",[-1.76563,-1.27539,1.43051e-006],337.757,1,0,"[_this,6]call SEM_fnc_crateLoot"]
+	["Box_NATO_AmmoVeh_F",[-1.76563,-1.27539,1.43051e-006],337.757,1,0,"[_this,6]call SEM_fnc_crateLoot"]
 ];
 _objs

@@ -66,3 +66,15 @@ v0.7.1 (07.01.2014)
  - Changed: Dead players can now prevent a mission from time out as long as they don't respawn.
  - Added: AllowPlayerDamage functionality (for future use with serverside AI).
  - Fixed: AllowPlayerDamage not fully working.
+
+v0.8 (23.011.2015)
+ - Fixed: AI not moving.
+ - Fixed: World Data not correctly loaded on custom islands.
+ - Added: New Mission Markers.
+ - Added: New Outpost (still testing).
+ - Added: Changed AI to server side only.
+ - Added: Driving over AI damages Your vehicle.
+ - Added: Mission Marker have a time out when finished successfully.
+ - Changed: BE Filters (only Lines 41, 42 and 43 have exceptions now, the old ones can be removed)
+ - Changed: Removed "PLayer AllowDamage" Functionality.
+ - Changed: Mission Markers are no longer spot on the mission coordinates.

@@ -16,7 +16,7 @@ call compile format["
 			{_z = _x;
 			if(_x in (getweaponcargo _z))exitWith{deleteVehicle _z}count %1;
 			if(_x in (getmagazinecargo _z))exitWith{deleteVehicle _z}count %2;
-			}forEach nearestObjects [(getPosATL _this), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 12];
+			}forEach nearestObjects [(getPosATL _this), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 3];
 		};
 	}];
 ", SEM_removeWeaponsFromDeadAI, SEM_removeMagazinesFromDeadAI];
@@ -31,19 +31,16 @@ _this addEventHandler ["killed", { private["_u","_k","_vk","_s"];
 	if(abs speed _vk > 0)then{
 	if(_vk distance _u < 10)then{
 	if(isEngineOn _vk || !isNull (driver _vk))then{
-		_u call SEM_fnc_removeGear;
-		{deleteVehicle _x}forEach nearestObjects [(getPosATL _u), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 3];
 		
-		if({alive _x}count units group _u < 1)then[{
-			"R_PG32V_F" createVehicle (position _u);
-		},{
-			//_vk setVelocity [(velocity _vk select 0)*.25, (velocity _vk select 1)*.25, 2];
-			_s = [	"wheel_1_1_steering","wheel_2_1_steering","wheel_1_2_steering","wheel_2_2_steering",
-					"wheel_1_3_steering","wheel_2_3_steering","wheel_1_4_steering","wheel_2_4_steering",
-					"MOTOR","glass1","glass2","glass3","door1","door2","door3","door4"];
-			{_vk setHit [_x,(_vk getHit _x)+(.3+(random .2))]}count _s;
-			
-			vehicle player setHit [_x,((vehicle player) getHit _x) +.3]
-		}];
+		SEM_vehDamage = _vk;
+		(owner _vk) publicVariableClient "SEM_vehDamage";
+		
+		{deleteVehicle _x}forEach nearestObjects [(getPosATL _u), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 3];
+		_u call SEM_fnc_removeGear;
+		
+		if({alive _x}count units group _u < 1)then{
+			_u spawn{sleep 5; createMine ["APERSTripMine", (position _this),[],0]};
+		};
+		
 	}}}};
 }];

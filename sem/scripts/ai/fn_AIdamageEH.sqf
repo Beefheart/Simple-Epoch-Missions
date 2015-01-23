@@ -9,7 +9,7 @@ if(_addEH)then[{	//Add damage detection EventHandler
 		_AIunit = _this select 0;
 		_source = _this select 3;
 		if(isPlayer _source)then{
-			(group _AIunit) reveal _source;
+			(group _AIunit) reveal [_source, 1.5];
 			_AIunit removeEventHandler ["handleDamage",(_AIunit getVariable "damageEHindex")];
 			_AIunit setVariable ["gotHitBy", [_source, time]]; //define attacker and time
 			_AIunit setVariable ["damageEHindex", -1];	//this is used later

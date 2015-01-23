@@ -6,34 +6,14 @@
 	25.12.2014 by KiloSwiss
 */
 
-private["_worldRadius","_worldCenterPos","_worldData"];
+private["_mapSize","_worldData"];
 
-if(isNumber(configFile >> "CfgWorlds" >> worldName >> "MapSize"))then[{
-	_worldRadius = (getNumber(configFile >> "CfgWorlds" >> worldName >> "MapSize")/2);
-	_worldCenterPos = [_worldRadius, _worldRadius, 0];	//Source: http://feedback.arma3.com/view.php?id=16257
-	_worldData = [_worldRadius, _worldCenterPos];
-},{
-	_worldRadius = switch(toLower worldName)do{
-						//case "altis":{15360};
-						//case "stratis":{4096};
-						case "chernarus":{7680};
-						case "chernarus_summer":{7680};
-						case "woodland_acr":{3840}; //Bystrica
-						case "bootcamp_acr":{1920}; //Bukovina
-						case "utes":{2560};
-						case "sara":{10240};
-						case "saralite":{5120};
-						case "sara_dbe1":{10240};
-						case "takistan":{6400};
-						case "zargabad":{4096};
-						default {-1};
-					};
-	_worldCenterPos = if(_worldRadius > 0)then{[_worldRadius,_worldRadius,0]}else{
-						if(getMarkerColor "center" != "")then[{getMarkerPos "center"},{
-						getArray(configFile >> "CfgWorlds" >> worldName >> "centerPosition")}];
-					};
-	_worldData = [_worldRadius, _worldCenterPos];
-}];
+//_mapSize = (configFile >> "CfgWorlds" >> worldName >> "mapSize") call BIS_fnc_getCfgData;
+_mapSize = getNumber(configFile >> "CfgWorlds" >> worldName >> "MapSize");
+if(SEM_debug)then{diag_log format["#SEM DEBUG: WorldData get MapSize (%1) for island %2 from config", _mapSize, str worldName]};
+
+//Source: http://feedback.arma3.com/view.php?id=16257
+_worldData = [_mapSize, [(_mapSize/2), (_mapSize/2), 0]];
 
 _worldData
 

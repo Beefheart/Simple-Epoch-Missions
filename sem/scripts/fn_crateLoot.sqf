@@ -13,6 +13,8 @@ private ["_crate","_loadout","_ran","_rifles","_riflesGL","_LMGs","_rifleOptics"
 _crate = _this select 0;
 if(count _this > 1)then[{_loadout = _this select 1},{_loadout = ceil(random 4)}];
 
+_crate call SEM_fnc_emptyGear;
+
 _rifles = [
 	["akm_EPOCH",				"30Rnd_762x39_Mag"],
 	["m16_EPOCH",				"30Rnd_556x45_Stanag_Tracer_Yellow"],

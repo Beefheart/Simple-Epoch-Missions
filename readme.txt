@@ -3,11 +3,6 @@
  The "Simple Epoch Missions" are originally based on the Code that machine6fd postet in the Epoch Forums: http://epochmod.com/forum/index.php?/topic/30223-ai-missions-have-em/
 
  This Mission "framework" only allows one mission at a time (for now).
- It has the following features:
-	- JIP compatible mission marker
-	- CPU friendly (AI is inactive until a thread is nearby)
-	- AI processing is outsourced to nearby players
-	- AI kills fresh spawned players (which was one of the bigger problems so far)
 
  Use, edit, share as You like, all code provided in this download is free to use, as long as You share it with others.
  Only restrictions are:
@@ -41,42 +36,17 @@ Step 2.
 Step 3.
 	IMPORTANT: Update Your BattlEye filters!
 	Add the following exceptions to Your BE filters:
-	
- - scripts.txt Line 24:
-	After the filter named 'addMagazine' add:
-		!="_this select 0 addMagazines [_this select 5, 1];"
-
- - scripts,txt Lines 28, 29 and 30:
-	After the filter named 'removeAllWeapons' add:
-		!="removeAllWeapons _this;"
-	After the filter named 'removeAllItems' add:
-		!="removeAllItems _this;"
-	After the filter named 'removeBackpack' add:
-		!="removeBackpackGlobal _this;"
 
  - scripts.txt Lines 41, 42 and 43:
+
 	After the filter named 'deleteMarker' add:
-		!="deleteMarkerLocal \"MissionMarker\""
+		!="deleteMarkerLocal format[\"SEM_MissionMarker"
+
 	After the filter named 'setMarker' add:
-		!="_marker setMarkerPosLocal _markerPos" !="_marker setMarkerTypeLocal \"hd_destroy\"" !="_marker setMarkerTextLocal format[\"%1\",_markerName]" !="_marker setMarkerColorLocal \"ColorRed\"" !="_marker setMarkerDirLocal -37" !="_marker setMarkerSizeLocal [0.8,0.8]"
+		!"setMarkerShapeLocal" !"setMarkerSizeLocal" !"setMarkerPosLocal" !"setMarkerBrushLocal" !"setMarkerColorLocal"
+
 	After the filter named 'createMarker' add:
-		!="createMarkerLocal [\"MissionMarker\", _markerPos]"
-
- - scripts.txt Line 47:
-	After the filter named 'setDamage' add:
-		!="([4654.62,9593.63,0] nearestObject 145259) setDamage 1" !="([4654.62,9593.63,0] nearestObject 145260) setDamage 1"
-
- - scripts.txt Line 52:
-	After the filter named 'addEventHandler' add:
-		!"Fired"
-
- - createvehicle.txt First Line:
-	After the filter named "" add:
-		!="R_PG32V_F" !="R_TBG32V_F"
-
- - addweaponcargo.txt First Line:
-	After the filter named "" add:
-		!="launch_(RPG32|NLAW|Titan_short|Titan)_F"
+		!="createMarkerLocal [format[\"SEM_MissionMarker"
 
 
 
@@ -101,4 +71,4 @@ Edit/Change settings:
 	After You edited the files, You have to re-pack them into a pbo again!
 	All changes You made on the files outside the sem.pbo or the mission pbo will be ignored!
 
-03.01.2015 KiloSwiss
+23.01.2015 KiloSwiss

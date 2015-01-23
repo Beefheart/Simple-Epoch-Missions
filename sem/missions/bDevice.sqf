@@ -1,4 +1,4 @@
-private["_pos","_timeout","_cleanup","_missionObjects","_group","_box1","_camonet","_wreck","_hintString","_boxPos","_start","_endCondition"];
+private["_pos","_timeout","_cleanup","_missionID","_missionObjects","_group","_box1","_camonet","_wreck","_hintString","_boxPos","_start","_units","_endCondition"];
 /*
 	Based Of drsubo Mission Scripts
 	File: bCamp.sqf
@@ -9,6 +9,7 @@ private["_pos","_timeout","_cleanup","_missionObjects","_group","_box1","_camone
 _pos = _this select 0; 
 _timeout = (if(count _this > 1)then{if(_this select 1 > 0)then[{(_this select 1)*60},{-1}]}else{45*60}); //Mission timeout (default 45min)
 _cleanup = (if(count _this > 2)then{if(_this select 2 > 0)then[{(_this select 2)*60},{-1}]}else{60*60}); //Mission cleanup time (default 60min)
+_missionID = _this select 3;
 _missionObjects = [];
 //--
 
@@ -24,17 +25,16 @@ _camonet setPos _pos;
 
 _boxPos = (_wreck modelToWorld [4,0,0]);
 _boxPos set [2,0];
-_box1 = createVehicle ["CargoNet_01_box_F", _boxPos, [], 0, "NO_COLLIDE"];
+_box1 = createVehicle ["Box_NATO_Wps_F", _boxPos, [], 0, "NO_COLLIDE"];
 _missionObjects pushBack _box1;
+_box1 call SEM_fnc_emptyGear;
 _box1 setDir (getDir _wreck);
 _box1 setPos _boxPos;
 
-clearWeaponCargoGlobal _box1;
-clearMagazineCargoGlobal _box1;
-
 _group = [_pos,(5+(random 2))] call SEM_fnc_spawnAI;
 {_missionObjects pushBack _x}forEach units _group;
-[_group, _pos] spawn SEM_fnc_AIsetOwner;
+[_group, _pos] call SEM_fnc_AImove;
+//[_group, _pos] spawn SEM_fnc_AIsetOwner;
 
 _hintString = "<t align='center' size='2.0' color='#f29420'>Mission<br/>Device discovered!</t><br/>
 <t size='1.25' color='#ffff00'>______________<br/><br/>A nuclear device has been discovered<br/>
@@ -43,8 +43,9 @@ SEM_globalHint = [0,_hintString]; publicVariable "SEM_globalHint";
 
 	/* Mission End Conditions */
 _start = time;
+_units = units _group;
 waitUntil{	sleep 5;
-	_endCondition = [_pos,_group,_start,_timeout,[_box1]]call SEM_fnc_endCondition;
+	_endCondition = [_pos,_units,_start,_timeout,_missionID,[_box1]]call SEM_fnc_endCondition;
 	(_endCondition > 0)
 };
 

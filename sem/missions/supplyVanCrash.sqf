@@ -1,4 +1,4 @@
-private["_pos","_timeout","_cleanup","_missionObjects","_group","_box1","_truck","_wreck","_smallWrecks","_truckWrecks","_wreckPos","_hintString","_start","_endCondition"];
+private["_pos","_timeout","_cleanup","_missionID","_missionObjects","_group","_box1","_truck","_wreck","_smallWrecks","_truckWrecks","_wreckPos","_hintString","_start","_units","_endCondition"];
 /*
 	Based Of drsubo Mission Scripts
 	File: supplyVanCrash.sqf
@@ -9,6 +9,7 @@ private["_pos","_timeout","_cleanup","_missionObjects","_group","_box1","_truck"
 _pos = _this select 0;
 _timeout = (if(count _this > 1)then{if(_this select 1 > 0)then[{(_this select 1)*60},{-1}]}else{45*60}); //Mission timeout (default 45min)
 _cleanup = (if(count _this > 2)then{if(_this select 2 > 0)then[{(_this select 2)*60},{-1}]}else{60*60}); //Mission cleanup time (default 60min)
+_missionID = _this select 3;
 _missionObjects = [];
 //--
 
@@ -27,16 +28,16 @@ _missionObjects pushBack _wreck;
 _wreck setDir ((getDir _truck)+(if(random 1 > 0.5)then[{+(random 12)},{-(random 12)}]));
 _wreck setPos _wreckPos;
 
-_box1 = createVehicle ["CargoNet_01_box_F", _pos, [], 3, "NONE"];
+_box1 = createVehicle ["C_supplyCrate_F", _pos, [], 3, "NONE"];
 _missionObjects pushBack _box1;
-clearWeaponCargoGlobal _box1;
-clearMagazineCargoGlobal _box1;
+_box1 call SEM_fnc_emptyGear;
 _box1 attachTo [_truck,[-1.2345,1.2,.345]];
 deTach _box1; /* Let it fall off */
 
 _group = [_pos,(5+(random 2))] call SEM_fnc_spawnAI;
 {_missionObjects pushBack _x}forEach units _group;
-[_group, _pos] spawn SEM_fnc_AIsetOwner;
+[_group, _pos] call SEM_fnc_AImove;
+//[_group, _pos] spawn SEM_fnc_AIsetOwner;
 
 _hintString = "<t align='center' size='2.0' color='#f29420'>Mission<br/>Supply Van Crash</t><br/>
 <t size='1.25' color='#ffff00'>______________<br/><br/>A supply van with base building material has crashed!<br/>
@@ -46,8 +47,9 @@ SEM_globalHint = [0,_hintString]; publicVariable "SEM_globalHint";
 	/* Mission End Conditions */
 	
 _start = time;
+_units = units _group;
 waitUntil{	sleep 5;
-	_endCondition = [_pos,_group,_start,_timeout,[_box1]]call SEM_fnc_endCondition;
+	_endCondition = [_pos,_units,_start,_timeout,_missionID,[_box1]]call SEM_fnc_endCondition;
 	(_endCondition > 0)
 };
 

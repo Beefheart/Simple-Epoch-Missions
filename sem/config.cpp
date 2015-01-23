@@ -20,16 +20,16 @@ class CfgFunctions {
 		class SEM_scripts
 		{
 			file = "sem\scripts";
-			class allowPlayerDamage {};
 			class createComposition {};
 			class getWorldData {};
 			class findMissionPos {};
 			class selectMission {};
 			class selectClosest {};
 			class endCondition {};
+			class emptyGear {};
+			class randomPos {};
 			class crateLoot {};
 			class boxLoot {};
-			
 		};
 		
 		class SEM_AIscripts
@@ -38,6 +38,7 @@ class CfgFunctions {
 			class spawnAI {};
 			class stripUnit {};
 			class removeGear {};
+			class findThread {};
 			class AIactDeact {};
 			class AIsetOwner {};
 			class AIdamageEH {};

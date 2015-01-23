@@ -7,6 +7,8 @@ private ["_box","_loadout","_ran"];
 _box = _this select 0;
 if(count _this > 1)then[{_loadout = _this select 1},{_loadout = ceil(random 2)}];
 
+_box call SEM_fnc_emptyGear;
+
 _LMGs = [
 	["m249_EPOCH",				"200Rnd_556x45_M249"],
 	["m249Tan_EPOCH",			"200Rnd_556x45_M249"],
