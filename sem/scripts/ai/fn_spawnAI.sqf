@@ -24,6 +24,10 @@ _x call SEM_fnc_stripUnit;
 _x setVariable["LASTLOGOUT_EPOCH",99999999];
 }count units _group;
 
+if(SEM_AIdisableSniperDamage)then{
+	units _group call SEM_fnc_broadcastAI;
+};
+
 diag_log format["#SEM: Spawned %1 units at position %2", count units _group, _pos];
 
 //GEAR

@@ -1,126 +1,102 @@
-private["_minimumPlayers","_minMissionTime","_maxMissionTime","_missionCleanup","_markerTimeoutS","_blockMarker","_missionsPath","_missions","_playerOnline","_start","_wait","_missionPos","_lastPositions","_randomMission","_lastMission","_runningMission","_missionID"];
+private["_staticMissionsPath","_staticMissions","_dynamicMissionsPath","_dynamicMissions","_missionPos","_lastPositions","_randomMission","_lastMission","_runningMission","_missionID"];
 /*
-	Update 07.01.2015
+	Update 29.01.2015
 	By KiloSwiss
 */
 
-_minimumPlayers = 1;	// Minimum number of online players for missions to spawn
-_minMissionTime = 20;	// Minimum minutes between missions
-_maxMissionTime = 35;	// Maximum minutes between missions
-_missionCleanup = -1;	// Minutes after a mission finished where all mission objects (including AI) will be deleted (0 or -1 equals never).
-_markerTimeoutS = 45;	// Time (in seconds) until marker is deleted after mission ending successfully.
+SEM_MinPlayerStatic = 1;	// Minimum number of online players for basic missions to spawn.
+SEM_MinPlayerDynamic = 6; 	// Minimum number of online players for additional/parallel running missions.
+SEM_MissionTimerMin = 20;	// Minimum minutes between missions.
+SEM_MissionTimerMax = 35;	// Maximum minutes between missions.
+SEM_MissionCleanup = -1;	// Minutes after a mission finished where all mission objects (including AI) will be deleted (0 or -1 equals never).
+SEM_MarkerTimeOutS = 45;	// Time (in seconds) until marker is deleted after mission ending successfully.
+
+// Disable Damage over a specific distance so players can't snipe the mission AI from safe distance.
+SEM_AIdisableSniperDamage = true;	// Set to false to allow sniper damage from any distance.
+SEM_AIsniperDamageDistance = 500;	// Max. distance (in meters) where AI takes damage (min. 300 -  max. 1000).
 
 // Chance of AI dropping their guns and keeping their gear (vests, backpacks and magazines) when killed.
 SEM_AIdropGearChance = 40;	//	Values: 0-100%	Where 0 means all gear gets removed from dead AI units.
 
-// Weapons that should be removed from killed AI
-SEM_removeWeaponsFromDeadAI = [];
-
-// Magazines that should be removed from killed AI
-SEM_removeMagazinesFromDeadAI = [];
-
+SEM_removeWeaponsFromDeadAI = [];	// Weapons that should be removed from killed AI
+SEM_removeMagazinesFromDeadAI = [];	// Magazines that should be removed from killed AI
 
 //Marker Names where mission spawning is blocked.
-_blockMarker = ["respawn_west"];
+SEM_blockMarker = ["respawn_west"];
 
-_missions = [
+_staticMissionsPath = "sem\missions\";
+_staticMissions = [
 	["supplyVanCrash",	"Supply Van",		45,	100],
 	["bPlaneCrash",		"Plane Crashsite",	45,	90],
 	["bHeliCrash",		"Heli Crashsite",	45,	85],
 	["bCamp",			"Bandit Camp",		90,	80],
 	["bDevice",			"Strange Device",	45,	75],
-	
+	/* example */
 	["file name",		"marker name",		-1,	-1]	//NO COMMA AT THE LAST LINE!
 /*	 1.					2.					3.	4.
 
 	1. "file name"  	MUST be equal to the sqf file name!
-	2. "marker name" 	Name of the marker that is shown to all players.
-	3. time out,		(Number) Minutes until running missions time out (0 or -1 equals no mission timeout).
+	2. "marker name" 	Name of the mission marker.
+	3. time out,		(Number) Minutes until running mission times out (0 or -1 equals no mission time out).
 	4. probability		(Number) Percentage of probability how often a mission will spawn: 1 - 100 (0 and -1 equals OFF).
 */];
 
+_dynamicMissionsPath = "sem\missionsDynamic\";
+_dynamicMissions = [
+	["convoy",	"Supply Convoy",		90,	-1]
+];
 
-//	DO NOT EDIT BELOW THIS LINE!
 //##############################################
-SEM_debug = true;
+SEM_debug = false;
 /*	Debug settings:
 	- Missions time out after 10min
 	- Minimum players is set to 0
-	- Time between missions is 60sec
+	- Time between missions is 30sec
 	- Mission clean up happens after 2min
+	- AI only takes damage from under 100m
 	- More events and additional data is logged
 */
-_minimumPlayers = _minimumPlayers max 1;
-_minMissionTime = _minMissionTime max 1;
-_maxMissionTime = _maxMissionTime max 1;
-_missionCleanup = _missionCleanup max -1;
-_markerTimeoutS = _markerTimeoutS max 0;
-if(_minMissionTime > _maxMissionTime)then{
-	private "_tempValueholder";
-	_tempValueholder = _maxMissionTime;
-	_maxMissionTime = _minMissionTime;
-	_minMissionTime = _tempValueholder;
+//	DO NOT EDIT BELOW THIS LINE!
+//##############################################
+SEM_MinPlayerStatic = SEM_MinPlayerStatic max 1;
+SEM_MinPlayerDynamic = SEM_MinPlayerDynamic max 1;
+SEM_MissionTimerMin = SEM_MissionTimerMin max 1;
+SEM_MissionTimerMax = SEM_MissionTimerMax max 1;
+SEM_MissionCleanup = SEM_MissionCleanup max -1;
+SEM_MarkerTimeOutS = SEM_MarkerTimeOutS max 0;
+if(SEM_MissionTimerMin > SEM_MissionTimerMax)then{
+	private "_tempValueHolder";
+	_tempValueHolder = SEM_MissionTimerMax;
+	SEM_MissionTimerMax = SEM_MissionTimerMin;
+	SEM_MissionTimerMin = _tempValueHolder;
 };
-
-for "_i" from 0 to (count _missions -1) step 1 do{	// Remove inactive missions
-	if((_missions select _i) select 3 < 1)then[{_missions set [_i, "delete"]},{(_missions select _i) set [4, false];
-	(_missions select _i) set [3, 1 max ((_missions select _i) select 3) min 10]}];
-};	_missions = _missions - ["delete"];
 
 {if !(_x in SEM_removeWeaponsFromDeadAI)then{SEM_removeWeaponsFromDeadAI pushBack _x}}forEach ["launch_RPG32_F","Srifle_GM6_F","Srifle_LRR_F","m107_EPOCH","m107Tan_EPOCH"];
 {if !(_x in SEM_removeMagazinesFromDeadAI)then{SEM_removeMagazinesFromDeadAI pushBack _x}}forEach ["RPG32_F","RPG32_HE_F","5Rnd_127x108_Mag","5Rnd_127x108_APDS_Mag","7Rnd_408_Mag"];
 SEM_AIdropGearChance = 0 max SEM_AIdropGearChance min 100;
-SEM_version = "0.8 EXPERIMENTAL"; publicVariable "SEM_version";
+SEM_AIsniperDamageDistance = 300 max SEM_AIsniperDamageDistance min 1000;
+SEM_AIsniperDamageEHunits = [];
 
-_worldData = [] call SEM_fnc_getWorldData;
-if(SEM_debug)then{diag_log format["#SEM DEBUG: World Data (%1 %2) received, waiting for missions to start", str worldName, _worldData]};
-
-if(SEM_debug)then[{{_x set [2,10]}count _missions; _minimumPlayers = 0; _missionCleanup = 2;},{UIsleep 120}];
-_missionsPath = "sem\missions\";
-_lastPositions = [];
-_lastMission = "";
-_missionID = 0;
-
-while{true}do{
-	_playerOnline = playersNumber civilian;
-	if(SEM_debug)then{diag_log format["#SEM DEBUG: Online players: %1", playersNumber civilian]};
-	if(_playerOnline < _minimumPlayers)then{
-	diag_log format ["#SEM: Waiting for players (%1/%2)", _playerOnline, _minimumPlayers];
-		waitUntil{	sleep 3; 
-			if(playersNumber civilian != _playerOnline)then{	_playerOnline = playersNumber civilian;
-				diag_log format ["#SEM: Waiting for players (%1/%2)", _playerOnline, _minimumPlayers];
-			};
-		(_playerOnline >= _minimumPlayers)
-		};
-	diag_log format["#SEM: Online players: (%1/%2) - Starting next Mission", _playerOnline, _minimumPlayers];
+if(SEM_debug)then{ /* Load debug settings */
+	SEM_MinPlayerStatic = 0; SEM_MinPlayerDynamic = 0; SEM_MissionCleanup = 2;
+	SEM_AIdisableSniperDamage = true; SEM_AIsniperDamageDistance = 50;
+	[] spawn {
+		//waitUntil{{isPlayer _x}count playableUnits > 0};	
+		/* Add a looping hint so EVERYONE can see that debug is on */
+		SEM_version = SEM_version + " - DEBUG IS ON!\nADMIN: Check ""initMissions.sqf"" inside ""sem.pbo""!";
+		[] spawn{while{true}do{ sleep 120; publicVariable "SEM_version"}};
+		publicVariable "SEM_version";
 	};
+}else{publicVariable "SEM_version"; UIsleep 120};
 
-	_start = time;
-	if(SEM_debug)then[{sleep 30},{_wait = (_minMissionTime*60) max random(_maxMissionTime*60); waitUntil{sleep 1; (time - _start) >= _wait}}];
+SEM_worldData = true call SEM_fnc_getWorldData;
+if(SEM_debug)then{diag_log format["#SEM DEBUG: World Data (%1 %2) received, waiting for missions to start", str worldName, SEM_worldData]};
 
-	_missionPos = [_worldData, _lastPositions, _blockMarker] call SEM_fnc_findMissionPos;
-	_lastPositions pushBack _missionPos;
-	if(count _lastPositions > 5)then{_lastPositions deleteAt 0};
-	if(SEM_debug)then{diag_log format["#SEM DEBUG: previous mission pos: %1 %2",count _lastPositions, _lastPositions]};
+publicVariable "SEM_AIsniperDamageDistance";
+SEM_lastMissionPositions = [];
+SEM_MissionID = 0;
 
-	_randomMission = [_missions, _lastMission] call SEM_fnc_selectMission;
-	_lastMission = _randomMission select 0;
-	
-	_missionID = _missionID + 1;
-	_runningMission = [_missionPos, _randomMission select 2, _missionCleanup, _missionID] execVM format["%1%2.sqf", _missionsPath, _randomMission select 0];
-	diag_log format["#SEM: Running Mission %1 %2 at Position %3", _missionID, str (_randomMission select 1), _missionPos];
-
-	_markerPos = _missionPos call SEM_fnc_randomPos;
-	SEM_globalMissionMarker = [true,_markerPos,_missionID];
-	publicVariable "SEM_globalMissionMarker";	// Let clients create a Marker
-	/*localhost*/if(!isDedicated)then{SEM_globalMissionMarker call SEM_client_createMissionMarker};
-
-	waitUntil{sleep 1; scriptDone _runningMission};
-	diag_log format["#SEM: Mission %1 finished", str (_randomMission select 1)];
-	
-	call compile format["if(SEM_mission_%1_return in [1,2])then[{SEM_markerTimeout = 0},{SEM_markerTimeout = _markerTimeoutS}];", _missionID];
-	SEM_globalMissionMarker = [false,SEM_markerTimeout,_missionID];	// Let clients delete the Marker
-	publicVariable "SEM_globalMissionMarker";
-	/*localhost*/if(!isDedicated)then{SEM_globalMissionMarker call SEM_client_createMissionMarker};
-	
-};
+[
+	[_staticMissions, _staticMissionsPath ,"static"]/*,
+	[_dynamicMissions, _dynamicMissionsPath ,"dynamic"]*/
+] call SEM_fnc_missionController;

@@ -1,4 +1,4 @@
-private["_pos","_timeout","_cleanup","_missionID","_missionObjects","_group","_box1","_camonet","_wreck","_hintString","_boxPos","_start","_units","_endCondition"];
+private["_pos","_timeout","_name","_missionID","_missionObjects","_group","_box1","_camonet","_wreck","_hintString","_boxPos","_start","_units","_endCondition"];
 /*
 	Based Of drsubo Mission Scripts
 	File: bCamp.sqf
@@ -6,10 +6,10 @@ private["_pos","_timeout","_cleanup","_missionID","_missionObjects","_group","_b
 	Edited by KiloSwiss
 */
 
-_pos = _this select 0; 
-_timeout = (if(count _this > 1)then{if(_this select 1 > 0)then[{(_this select 1)*60},{-1}]}else{45*60}); //Mission timeout (default 45min)
-_cleanup = (if(count _this > 2)then{if(_this select 2 > 0)then[{(_this select 2)*60},{-1}]}else{60*60}); //Mission cleanup time (default 60min)
-_missionID = _this select 3;
+_pos = _this select 0;
+_name = _this select 1 select 1;
+_timeout = _this select 1 select 2; //Mission timeout
+_missionID = _this select 2;
 _missionObjects = [];
 //--
 
@@ -51,7 +51,7 @@ waitUntil{	sleep 5;
 
 if(_endCondition == 3)then[{ //Win!
 	[_box1] call SEM_fnc_crateLoot;
-	if(_cleanup > 0)then{[_cleanup, _pos, _missionObjects] spawn{sleep (_this select 0); {if(_x distance (_this select 1) < 50)then{deleteVehicle _x}; sleep .1}forEach (_this select 2)}};
+	if(SEM_MissionCleanup > 0)then{[_pos, _missionObjects] call SEM_fnc_missionCleanup};
 	_hintString = "<t align='center' size='2.0' color='#6bab3a'>Mission success<br/>
 	<t size='1.25' color='#ffff00'>______________<br/><br/>All bandits have been defeated!";
 	SEM_globalHint = [_endCondition,_hintString]; publicVariable "SEM_globalHint";

@@ -3,18 +3,29 @@
 	
 	_return = [] call SEM_fnc_getWorldData;
 	
-	25.12.2014 by KiloSwiss
+	24.01.2015 by KiloSwiss
+//_mapSize = (configFile >> "CfgWorlds" >> worldName >> "mapSize") call BIS_fnc_getCfgData;
 */
 
-private["_mapSize","_worldData"];
+private["_mapSize","_mapCenter","_worldData"];
 
-//_mapSize = (configFile >> "CfgWorlds" >> worldName >> "mapSize") call BIS_fnc_getCfgData;
 _mapSize = getNumber(configFile >> "CfgWorlds" >> worldName >> "MapSize");
-if(SEM_debug)then{diag_log format["#SEM DEBUG: WorldData get MapSize (%1) for island %2 from config", _mapSize, str worldName]};
-
-//Source: http://feedback.arma3.com/view.php?id=16257
-_worldData = [_mapSize, [(_mapSize/2), (_mapSize/2), 0]];
-
+if(_mapSize > 0)then{
+	_worldData = [_mapSize, [(_mapSize/2), (_mapSize/2), 0]];
+	if(SEM_debug)then{diag_log format["#SEM DEBUG: WorldData get MapSize (%1) for island %2 from config", _mapSize, str worldName]};
+}else{
+	if((getMarkerPos "center" select 0) > (getArray(configFile >> "CfgWorlds" >> worldName >> "centerPosition") select 0))then[{
+		_mapSize = (getMarkerPos "center" select 0) * 2;
+		_worldData = [_mapSize, getMarkerPos "center"];
+		if(SEM_debug)then{diag_log format["#SEM DEBUG: WorldData get MapSize (%1) for island %2 from center Marker", _mapSize, str worldName]};
+	},{
+		_mapCenter = getArray(configFile >> "CfgWorlds" >> worldName >> "centerPosition");
+		_mapCenter set [2,0];
+		_worldData =[(_mapCenter select 0) * 2, _mapCenter];
+		if(SEM_debug)then{diag_log format["#SEM DEBUG: WorldData get MapSize (%1) for island %2 from default center position", _worldData select 0, str worldName]};	
+	}];
+};
+	
 _worldData
 
 /*	To check size on different islands, use this code:

@@ -1,14 +1,14 @@
 /* KiloSwiss */
-private["_group","_pos","_owner","_firstLoop","_oldPos","_newPos","_dir","_dist","_posX","_posY","_wp"];
+_this call SEM_fnc_findthread;
 
-_this spawn {																								
+_this spawn {	private["_group","_pos","_owner","_firstLoop","_oldPos","_newPos","_dir","_dist","_posX","_posY","_wp"];																							
 	_group = _this select 0; 
 	_pos = _this select 1;
 
 	_firstLoop = true;
 	_oldPos = [0,0,0];
 	_newPos = _pos;
-
+	
 	while{{alive _x}count units _group > 0 /*&& !isPlayer _owner && owner (units _group select 0) == owner _owner && !local (units _group select 0)*/}do{
 		/*
 		if(_firstLoop)then[{_firstLoop = false},{

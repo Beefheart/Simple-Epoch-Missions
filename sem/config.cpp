@@ -12,8 +12,8 @@ class CfgFunctions {
 		class main {
 			file = "sem";
 			class init {
-				preInit = 1;
-				//postInit = 1;
+				//preInit = 1;
+				postInit = 1;
 			};
 		};
 
@@ -22,6 +22,8 @@ class CfgFunctions {
 			file = "sem\scripts";
 			class createComposition {};
 			class getWorldData {};
+			class missionController {};
+			class missionCleanup {};
 			class findMissionPos {};
 			class selectMission {};
 			class selectClosest {};
@@ -44,6 +46,7 @@ class CfgFunctions {
 			class AIdamageEH {};
 			class AIkilledEH {};
 			class AIfiredEH {};
+			class broadcastAI {};
 			class AImove {};
 		};
 	};

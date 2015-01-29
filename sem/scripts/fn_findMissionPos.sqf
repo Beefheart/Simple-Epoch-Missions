@@ -1,20 +1,22 @@
 /* KiloSwiss */
-private["_defaultCenterPos","_previousPos","_worldRadius","_worldCenterPos","_blockPos","_searchDist","_searchRadius","_blockRadius","_blockMarker","_found","_dir","_posX","_posY","_searchPos","_newPos"];
+private["_defaultCenterPos","_worldsize","_worldRadius","_worldCenterPos","_blockPos","_searchDist","_searchRadius","_blockRadius","_found","_dir","_posX","_posY","_searchPos","_newPos"];
 
 _defaultCenterPos = getArray(configFile >> "CfgWorlds" >> worldName >> "centerPosition");
 
-_worldsize = (_this select 0) select 0;
-_worldCenterPos = (_this select 0) select 1;
-_previousPos = _this select 1;
-_blockMarker = _this select 2;
+_worldsize = SEM_worldData select 0;
+_worldCenterPos = SEM_worldData select 1;
 
 _worldRadius = (1500 max ((_worldsize*0.9)/2));
 _searchRadius = (150 max (_worldRadius/5) min 300);
 _blockRadius = (500 max (_worldRadius/3) min 3000);
 
+
+while{count SEM_lastMissionPositions > 5}do{SEM_lastMissionPositions deleteAt 0};
+if(SEM_debug)then{diag_log format["#SEM DEBUG: previous mission pos: %1 %2",count SEM_lastMissionPositions, SEM_lastMissionPositions]};
+
 _blockPos = [];
-{_blockPos pushBack _x}forEach _previousPos;
-{_blockPos pushBack (getMarkerPos _x)}forEach _blockMarker;
+{_blockPos pushBack _x}forEach SEM_lastMissionPositions;
+{_blockPos pushBack (getMarkerPos _x)}forEach SEM_blockMarker;
 
 _found = false;
 while{!_found}do{ UIsleep .1;
@@ -50,5 +52,6 @@ while{!_found}do{ UIsleep .1;
 	};
 };
 _newPos set [2,0];
+SEM_lastMissionPositions pushBack _newPos;
 
 _newPos;

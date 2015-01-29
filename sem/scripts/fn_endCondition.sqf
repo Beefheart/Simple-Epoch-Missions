@@ -35,7 +35,8 @@ if(_timeOut > 0)then{ //Mission time out possible
 };
 
 if(_return < 1 && count _objects > 0)then{
-	if({damage _x == 1}count _objects == count _objects)then{_return = 2};
+	//if({damage _x == 1}count _objects == count _objects)then{_return = 2};
+	if({alive _x}count _objects == 0)then{_return = 2};
 	call compile format["SEM_mission_%1_return = 2;", _missionID];
 };
 	
