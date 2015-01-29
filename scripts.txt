@@ -18,6 +18,8 @@
 7 assignAs
 7 playableunits !="getDir _x, name _x];};}forEach playableUnits;};if" !"{getplayeruid _x == _ownerVar} count playableunits" !="lbSetData[21500, _index, netId _x];\n} forEach(playableUnits - [player]);"
 7 allUnits !="allUnits-playableUnits;};if" !="{_x allowFleeing 0} forEach allUnits;" !="EPOCH_ESPMAP_TARGETS = allUnits + vehicles;"
+7 allowDamage !="if(!isPlayer _x)then{_x allowDamage" !="player allowDamage true;vehicle player allowDamage true;"
+7 exec !="execVM \"semClient.sqf\"" !="<execute expression=" !"RscDebugConsole_execute" !"execFSM" !"_executeStackedEventHandler" !"fn_execVM" !"fn_moduleExecute" !"fn_execRemote" !"fn_MPexec" !"bis_fnc_moduleExecute_activate" !"fn_tridentExecute" !"randomize_civ1" !"executed from" !"EPOCH_DebugGUI_exec" !"_handle = [_display] execVM _script;" !"execVM \"\A3\Structures_F\scripts" !="execVM \"\A3\Structures_F_EPC\Civ\PlayGround\scripts\Carousel_spin.sqf\""
 7 allowDamage !="player allowDamage true;vehicle player allowDamage true;"
 7 exec !="<execute expression=" !"RscDebugConsole_execute" !"execFSM" !"_executeStackedEventHandler" !"fn_execVM" !"fn_moduleExecute" !"fn_execRemote" !"fn_MPexec" !"bis_fnc_moduleExecute_activate" !"fn_tridentExecute" !"randomize_civ1" !"executed from" !"EPOCH_DebugGUI_exec" !"_handle = [_display] execVM _script;" !"execVM \"\A3\Structures_F\scripts" !="execVM \"\A3\Structures_F_EPC\Civ\PlayGround\scripts\Carousel_spin.sqf\""
 7 addWeaponCargo
@@ -38,6 +40,9 @@
 7 createAgent !="_unit = createAgent[_unitClass, _targetPos, [], 256, \"FORM\"];" !="_unit = createAgent [_unitClass, _targetPos, [], 120, \"FORM\"];" !="_animal = createAgent[_randomAIClass, _animalPos, [], 5, \"NONE\"];" !="_unit = createAgent [\"Epoch_Cloak_F\", _pos, [], 0, \"CAN_COLLIDE\"];"
 7 createTeam
 7 createDialog !="createDialog \"InteractBank\";" !="createdialog \"SelectGender\";" !="_handled = createdialog _dialog;" !="if (!dialog) then {createDialog 'Skaronator_AdminMenu'};" !="if !(createdialog \"InteractItem\") exitWith {};" !="createDialog \"TapOut\";" !="if !(createdialog \"Trade\") exitWith {};" !="_ok = createdialog \"Interact\";" !="_ok = createdialog \"TradeNPCMenu\";" !="createDialog \"Epoch_myGroup\";" !="createDialog (if ((Epoch_my_GroupUID == \"\") && (Epoch_my_Group isEqualTo [])) then {\"EPOCH_createGrp\"} else {\"Epoch_myGroup\"});" !="createDialog \"GroupRequests\";"
+7 deleteMarker !="deleteMarkerLocal format[\"SEM_MissionMarker"
+7 setMarker !="Local"
+7 createMarker !="createMarkerLocal [format[\"SEM_MissionMarker"
 7 deleteMarker
 7 setMarker
 7 createMarker
