@@ -20,8 +20,6 @@
 7 allUnits !="allUnits-playableUnits;};if" !="{_x allowFleeing 0} forEach allUnits;" !="EPOCH_ESPMAP_TARGETS = allUnits + vehicles;"
 7 allowDamage !="if(!isPlayer _x)then{_x allowDamage" !="player allowDamage true;vehicle player allowDamage true;"
 7 exec !="execVM \"semClient.sqf\"" !="<execute expression=" !"RscDebugConsole_execute" !"execFSM" !"_executeStackedEventHandler" !"fn_execVM" !"fn_moduleExecute" !"fn_execRemote" !"fn_MPexec" !"bis_fnc_moduleExecute_activate" !"fn_tridentExecute" !"randomize_civ1" !"executed from" !"EPOCH_DebugGUI_exec" !"_handle = [_display] execVM _script;" !"execVM \"\A3\Structures_F\scripts" !="execVM \"\A3\Structures_F_EPC\Civ\PlayGround\scripts\Carousel_spin.sqf\""
-7 allowDamage !="player allowDamage true;vehicle player allowDamage true;"
-7 exec !="<execute expression=" !"RscDebugConsole_execute" !"execFSM" !"_executeStackedEventHandler" !"fn_execVM" !"fn_moduleExecute" !"fn_execRemote" !"fn_MPexec" !"bis_fnc_moduleExecute_activate" !"fn_tridentExecute" !"randomize_civ1" !"executed from" !"EPOCH_DebugGUI_exec" !"_handle = [_display] execVM _script;" !"execVM \"\A3\Structures_F\scripts" !="execVM \"\A3\Structures_F_EPC\Civ\PlayGround\scripts\Carousel_spin.sqf\""
 7 addWeaponCargo
 7 onMapSingleClick !="onMapSingleClick '';"
 7 addMagazine !"addMagazineCargo" !="player addMagazine _craftItem;" !="player addMagazine \"jerrycanE_epoch\";" !="player addMagazine \"emptyjar_epoch\";" !="player addMagazine \"jerrycan_epoch\";" !="player addMagazine \"Hatchet_swing\";" !="player addMagazine [(_x select 0),(_x select 1)]" !="player addMagazine _x;"
@@ -43,9 +41,6 @@
 7 deleteMarker !="deleteMarkerLocal format[\"SEM_MissionMarker"
 7 setMarker !="Local"
 7 createMarker !="createMarkerLocal [format[\"SEM_MissionMarker"
-7 deleteMarker
-7 setMarker
-7 createMarker
 7 assignItem
 7 forceAddUniform
 7 removeAllMPEventHandlers
