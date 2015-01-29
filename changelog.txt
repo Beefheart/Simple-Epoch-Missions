@@ -67,7 +67,7 @@ v0.7.1 (07.01.2014)
  - Added: AllowPlayerDamage functionality (for future use with serverside AI).
  - Fixed: AllowPlayerDamage not fully working.
 
-v0.8 (23.011.2015)
+v0.8 (23.01.2015)
  - Fixed: AI not moving.
  - Added: New Mission Markers.
  - Added: New Outpost.
@@ -80,7 +80,7 @@ v0.8 (23.011.2015)
  - Changed: Crates/Boxes for mission loot.
  - Changed/Added: New mission controller script for multiple missions (coming with future updates).
 
- v0.8.1 (29.011.2015)
+ v0.8.1 (29.01.2015)
  - Fixed: World Data not correctly loaded on custom islands.
  - Added: Mission Marker change to green when finished successfully.
  - Added: AI does not take damage when shot from distance (can be disabled and range specified).
