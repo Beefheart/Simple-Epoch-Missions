@@ -1,9 +1,10 @@
 class CfgPatches {
-	class sem {
+	class SEM {
 		units[] = {};
 		weapons[] = {};
-		requiredVersion = 0.1;
-		requiredAddons[] = {};	//"A3_server_settings"
+		SEM_version = 0.8.3;
+		requiredVersion = 1.38;
+		requiredAddons[] = {"a3_epoch_server"};
 	};
 };
 
@@ -11,7 +12,7 @@ class CfgFunctions {
 	class SEM {
 		class main {
 			file = "sem";
-			class init {
+			class semInit {
 				//preInit = 1;
 				postInit = 1;
 			};
@@ -28,6 +29,12 @@ class CfgFunctions {
 			class selectMission {};
 			class selectClosest {};
 			class endCondition {};
+			class spawnVehicle {};
+			class vehicleUnlock {};
+			class saveVehicle {};
+			class convoyRoute {};
+			class attachToVeh {};
+			class safeDetach {};
 			class emptyGear {};
 			class randomPos {};
 			class crateLoot {};
@@ -48,6 +55,7 @@ class CfgFunctions {
 			class AIfiredEH {};
 			class broadcastAI {};
 			class AImove {};
+			class AIconvoy {};
 		};
 	};
 };

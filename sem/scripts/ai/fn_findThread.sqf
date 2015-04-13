@@ -33,11 +33,12 @@ _this spawn {	private["_group","_pos","_units","_checkPos","_firstLoop","_possib
 		(count _possibleThreads > 0)
 		};
 			/* Thread has been detected */
-		diag_log format["#SEM DEBUG: Possible threads: %1", _possibleThreads];
+		if(SEM_debug in ["log","full"])then{diag_log format["#SEM DEBUG: Possible threads: %1", _possibleThreads]};
 
 			/* AI react immediately */
 		{_group reveal [_x,2]}count _possibleThreads; //Reveal threads
 		
+		/*
 		for "_i" from 0 to (count _possibleThreads -1) step 1 do{
 			_x = _possibleThreads select _i;
 			{if(!(terrainIntersect [_checkPos, [(getPosATL _x) select 0, (getPosATL _x) select 1, ((getPosATL _x) select 2) + 1]]))then[{
@@ -52,6 +53,7 @@ _this spawn {	private["_group","_pos","_units","_checkPos","_firstLoop","_possib
 				}];
 			UIsleep (10+(random 10))},{UIsleep 0.5}]}forEach units _group;	
 		};
-
+		*/
+		
 	}; //End of while loop
 };

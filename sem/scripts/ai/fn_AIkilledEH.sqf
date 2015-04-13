@@ -22,25 +22,45 @@ call compile format["
 ", SEM_removeWeaponsFromDeadAI, SEM_removeMagazinesFromDeadAI];
 
 /* AI run over by vehicle */
-_this addEventHandler ["killed", { private["_u","_k","_vk","_s"];
-	_u = _this select 0;
-	_k = _this select 1;
-	_vk = vehicle _k;
-	
-	if(_vk isKindOf "Car")then{
-	if(abs speed _vk > 0)then{
-	if(_vk distance _u < 10)then{
-	if(isEngineOn _vk || !isNull (driver _vk))then{
+if(SEM_punish_AIroadkill || SEM_reward_AIkill)then{
+	_this addEventHandler ["killed", { private["_u","_k","_vk","_s"];
+		_u = _this select 0;
+		_k = _this select 1;
+		_vk = vehicle _k;
 		
-		SEM_vehDamage = _vk;
-		(owner _vk) publicVariableClient "SEM_vehDamage";
-		
-		{deleteVehicle _x}forEach nearestObjects [(getPosATL _u), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 3];
-		_u call SEM_fnc_removeGear;
-		
-		if({alive _x}count units group _u < 1)then{
-			_u spawn{sleep 5; createMine ["APERSTripMine", (position _this),[],0]};
-		};
-		
-	}}}};
-}];
+		if(SEM_damage_AIroadkill)then[{
+			if(_vk isKindOf "Car")then{
+			if(abs speed _vk > 0)then{
+			if(_vk distance _u < 10)then{
+			if(isEngineOn _vk || !isNull (driver _vk))then{
+				
+				SEM_vehDamage = _vk;
+				(owner _vk) publicVariableClient "SEM_vehDamage";
+				
+				if(SEM_Krypto_AIroadkill > 0)then{
+					{if(isPlayer _x)then{
+						(owner _x) publicVariableClient "SEM_Krypto_AIroadkill";
+					}}forEach (crew _vk);
+				};
+				
+				{deleteVehicle _x}forEach nearestObjects [(getPosATL _u), ['GroundWeaponHolder','WeaponHolderSimulated','WeaponHolder'], 3];
+				_u call SEM_fnc_removeGear;
+				
+				if({alive _x}count units group _u < 1)then{
+					_u spawn{sleep 5; createMine ["APERSTripMine", (position _this),[],0]};
+				};
+				
+			}}}}else{
+				if(SEM_reward_AIkill)then{
+					SEM_Krypto_AIkill = ceil(skill _u * 10);
+					(owner _vk) publicVariableClient "SEM_Krypto_AIkill";
+				};
+			};
+		},{
+			if(SEM_reward_AIkill)then{
+				SEM_Krypto_AIkill = ceil(skill _u * 10);
+				(owner _vk) publicVariableClient "SEM_Krypto_AIkill";
+			};
+		}];
+	}];
+};

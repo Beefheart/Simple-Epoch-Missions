@@ -12,7 +12,7 @@ _blockRadius = (500 max (_worldRadius/3) min 3000);
 
 
 while{count SEM_lastMissionPositions > 5}do{SEM_lastMissionPositions deleteAt 0};
-if(SEM_debug)then{diag_log format["#SEM DEBUG: previous mission pos: %1 %2",count SEM_lastMissionPositions, SEM_lastMissionPositions]};
+if(SEM_debug in ["log","full"])then{diag_log format["#SEM DEBUG: previous mission pos: %1 %2",count SEM_lastMissionPositions, SEM_lastMissionPositions]};
 
 _blockPos = [];
 {_blockPos pushBack _x}forEach SEM_lastMissionPositions;
@@ -46,12 +46,11 @@ while{!_found}do{ UIsleep .1;
 			};
 
 			if(_found)then{	/* And do a last check */
-				{if(isPlayer _x)then[{if(_x distance _newPos < _blockRadius)exitWith{_found = false}},{UIsleep .05}]}forEach playableUnits;
+				{if(isPlayer _x)then[{if(_x distance _newPos < _blockRadius)exitWith{_found = false}},{UIsleep .05}]}forEach (if(isMultiplayer)then[{playableUnits},{allUnits}]);
 			};
 		};
 	};
 };
 _newPos set [2,0];
-SEM_lastMissionPositions pushBack _newPos;
 
 _newPos;

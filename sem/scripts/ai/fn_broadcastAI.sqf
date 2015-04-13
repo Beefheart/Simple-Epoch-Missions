@@ -1,3 +1,4 @@
+	/* KiloSwiss */
 private "_units";
 
 if(isNil "SEM_AI_Units")then{SEM_AI_Units = []};
@@ -16,4 +17,4 @@ _units = _units - ["delete"];
 SEM_AI_Units = _units;
 publicVariable "SEM_AI_Units";
 
-if(SEM_debug)then{diag_log format["#SEM DEBUG: Broadcasted %1 AI units to clients", count SEM_AI_Units]};
+if(SEM_debug in ["log","full"])then{diag_log format["#SEM DEBUG: Broadcasted %1 AI units to clients", count SEM_AI_Units]};

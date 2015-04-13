@@ -286,6 +286,9 @@ if(_cnt > 5)then{
 	};
 };
 
+{_x setskill ["courage",1]}count (units _group);
+_group allowFleeing 0;
+
 _group selectLeader (units _group select 0);
 
 _group

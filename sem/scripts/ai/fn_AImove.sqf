@@ -5,6 +5,14 @@ _this spawn {	private["_group","_pos","_owner","_firstLoop","_oldPos","_newPos",
 	_group = _this select 0; 
 	_pos = _this select 1;
 
+	{
+	if(_x == leader _group)then[{
+		_x setUnitRank "CORPORAL";
+	},{
+		_x setUnitRank "PRIVATE";
+	}];
+	}forEach units _group;
+	
 	_firstLoop = true;
 	_oldPos = [0,0,0];
 	_newPos = _pos;
@@ -36,7 +44,7 @@ _this spawn {	private["_group","_pos","_owner","_firstLoop","_oldPos","_newPos",
 		_group setSpeedMode (["FULL","NORMAL","LIMITED"]call BIS_fnc_selectRandom);
 		_group setFormation (["WEDGE","VEE","FILE","DIAMOND"]call BIS_fnc_selectRandom);
 
-		sleep (10+(random 20));
+		waitUntil{sleep 5; {alive _x && vehicle _x == _x && unitReady _x} count (units _group) == {alive _x && vehicle _x == _x} count (units _group)};
 	};
 	diag_log format["#SEM: AI moving stopped - Remaining AIs: (%1/%2)", {alive _x}count units _group, count units _group];
 };

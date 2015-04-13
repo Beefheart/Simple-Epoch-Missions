@@ -20,7 +20,7 @@ _azi 	= _this select 1;
 _pos 	= _this select 2;
 
 _objs = [];
-_objs = call (compile (preprocessFileLineNumbers format ["sem\missions\compositions\%1.sqf",_script]));
+_objs = call (compile (preprocessFileLineNumbers format [SEM_staticMissionsPath + "compositions\%1.sqf",_script]));
 private ["_posX", "_posY"];
 _posX = _pos select 0;
 _posY = _pos select 1;
