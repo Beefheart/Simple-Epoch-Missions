@@ -85,6 +85,6 @@ SEM_MissionID = 0;
 if(hasInterface && isServer)then{waitUntil{isPlayer player}};
 
 [
-	[SEM_staticMissions, SEM_staticMissionsPath ,"static"],
-	[SEM_dynamicMissions, SEM_dynamicMissionsPath ,"dynamic"]
+	[SEM_staticMissions, SEM_staticMissionsPath ,"static"]//,
+	//[SEM_dynamicMissions, SEM_dynamicMissionsPath ,"dynamic"]
 ] call SEM_fnc_missionController;
