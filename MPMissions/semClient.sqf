@@ -24,11 +24,11 @@ if(isDedicated)exitWith{}; //Everything below this line is only executed on the 
 		case "vr"				:{"Virtual Reality"};
 		default{worldName};
 	};
-	[[format["Welcome to EPOCH %1", _worldName],"", format["Do Your best to survive %1", name player],"","","","","","",""," ","Good luck...","","",""], -.5, .85] call BIS_fnc_typeText;
+	//[[format["Welcome to EPOCH %1", _worldName],"", format["Do Your best to survive %1", name player],"","","","","","",""," ","Good luck...","","",""], -.5, .85] call BIS_fnc_typeText;
 	//sleep 2;
-	[["This server is running:",format["%1 v%2", str 'Simple Epoch Missions', SEM_version],"","","","",""], .5, .85] call BIS_fnc_typeText;
+	//[["This server is running:",format["%1 v%2", str 'Simple Epoch Missions', SEM_version],"","","","",""], .5, .85] call BIS_fnc_typeText;
 	/* End of advertisement */
-	"SEM_version" addPublicVariableEventHandler {titleText [format["This server is running %1 v%2",	str "Simple Epoch Missions", _this select 1], "PLAIN DOWN"]};
+	//"SEM_version" addPublicVariableEventHandler {titleText [format["This server is running %1 v%2",	str "Simple Epoch Missions", _this select 1], "PLAIN DOWN"]};
 };	
 
 
