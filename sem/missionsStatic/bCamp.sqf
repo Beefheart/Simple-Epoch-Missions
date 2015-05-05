@@ -3,7 +3,7 @@ private["_pos","_timeout","_cleanup","_missionID","_missionType","_missionObject
 	Based Of drsubo Mission Scripts
 	File: bCamp.sqf
 	Author: Cammygames, drsubo
-	Edited by KiloSwiss
+	Edited by KiloSwiss, Beefheart
 */
 
 _pos = _this select 0;
@@ -14,7 +14,8 @@ _missionType = _this select 3;
 _missionObjects = [];
 //--
 
-_compositions =["camp1","camp2","camp3"];
+//_compositions =["camp1","camp2","camp3","camp1a","camp2a","camp3a"];
+_compositions =["camp1a","camp2a","camp3a"];
 _composition = _compositions select random (count _compositions -1);
 _compositionObjects = [_composition, (random 359), _pos] call SEM_fnc_createComposition;
 {_missionObjects pushBack _x}forEach _compositionObjects;

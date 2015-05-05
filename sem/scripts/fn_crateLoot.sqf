@@ -11,7 +11,7 @@
 */
 private ["_crate","_loadout","_ran","_rifles","_riflesGL","_LMGs","_rifleOptics","_SMGs","_smgOptics","_DMRs","_Sniper","_sniperOptics","_paintCans","_BuildingComponents","_BuildingKits"];
 _crate = _this select 0;
-if(count _this > 1)then[{_loadout = _this select 1},{_loadout = ceil(random 4)}];
+if(count _this > 1)then[{_loadout = _this select 1},{_loadout = ceil(random 10)}];
 
 _crate call SEM_fnc_emptyGear;
 
@@ -52,7 +52,7 @@ _LMGs = [
 	["LMG_Zafir_F",				"150Rnd_762x51_Box_Tracer"]
 ];
 
-_rifleOptics = ["optic_Aco","optic_ACO_grn","optic_Holosight"]; //"optic_Hamr","optic_Arco"
+_rifleOptics = ["optic_Aco","optic_ACO_grn","optic_Holosight","optic_Hamr","optic_Arco"]; //"optic_Hamr","optic_Arco"
 
 _SMGs = [
 	["SMG_02_F",		"30Rnd_9x21_Mag"],
@@ -78,6 +78,42 @@ _Sniper = [
 	["Srifle_GM6_F",	"5Rnd_127x108_Mag"],
 	["Srifle_LRR_F",	"7Rnd_408_Mag"]
 ];
+
+_MMLMG = [
+	["MMG_01_hex_F","150Rnd_93x64_Mag"],	// Navid
+	["MMG_01_tan_F","150Rnd_93x64_Mag"],
+	["MMG_02_camo_F","130Rnd_338_Mag"],	// SPMG
+	["MMG_02_sand_F","130Rnd_338_Mag"],
+	["MMG_02_black_F","130Rnd_338_Mag"]
+];
+
+_MMDMR = [
+	["srifle_DMR_02_F","10Rnd_338_Mag"],	//MAR-10
+	["srifle_DMR_02_camo_F","10Rnd_338_Mag"],
+	["srifle_DMR_02_sniper_F","10Rnd_338_Mag"],
+	["srifle_DMR_03_F","20Rnd_762x51_Mag"],	//Mk-I EMR
+	["srifle_DMR_03_tan_F","20Rnd_762x51_Mag"],
+	["srifle_DMR_03_khaki_F","20Rnd_762x51_Mag"],
+	["srifle_DMR_03_multicam_F","20Rnd_762x51_Mag"],
+	["srifle_DMR_03_woodland_F","20Rnd_762x51_Mag"],
+	["srifle_DMR_04_Tan_F","10Rnd_127x54_Mag"],	//ASP-1 Kir
+	["srifle_DMR_05_blk_F","10Rnd_93x64_DMR_05_Mag"],	//Cyrus
+	["srifle_DMR_05_hex_F","10Rnd_93x64_DMR_05_Mag"],
+	["srifle_DMR_05_tan_F","10Rnd_93x64_DMR_05_Mag"],
+	["srifle_DMR_06_camo_F","20Rnd_762x51_Mag"],	//Mk14
+	["srifle_DMR_06_olive_F","20Rnd_762x51_Mag"]
+];
+
+_MMOptics = ["optic_AMS","optic_AMS_khk","optic_AMS_snd","optic_KHS_blk","optic_KHS_hex","optic_KHS_old","optic_KHS_tan"];
+
+_riflesilencer = [
+	"muzzle_snds_H",	//6.5
+	"muzzle_snds_B"	//7.62
+];
+
+_mmsilencer = ["muzzle_snds_338_black","muzzle_snds_338_green","muzzle_snds_93mmg","muzzle_snds_93mmg_tan"];
+
+_lmgsilencer = ["muzzle_snds_H_MG"];
 
 _sniperOptics = ["optic_Nightstalker", "optic_SOS", "optic_LRPS", "optic_DMS"];
 
@@ -303,5 +339,67 @@ switch(_loadout)do{
 		_crate additemcargoGlobal ["MortarBucket", 6];
 		//_crate additemcargoGlobal ["ItemCorrugated", 6];
 		_crate addbackpackcargoGlobal ["B_Carryall_cbr", 1];
+	};
+
+	case 8:{	//excellent + high tier weapons + good attachments
+		_wpn = _MMLMG select (random (count _MMLMG -1));
+		_crate addWeaponCargoGlobal [(_wpn select 0), 1];
+		_crate addMagazineCargoGlobal [(_wpn select 1), 5];
+		_wpn = _riflesGL select (random (count _riflesGL -1));
+		_crate addWeaponCargoGlobal [(_wpn select 0), 2];
+		_crate addMagazineCargoGlobal [(_wpn select 1), 12];
+		_crate addMagazineCargoGlobal ["1Rnd_HE_Grenade_shell", 10];
+		_crate additemcargoGlobal ["optic_Hamr", 2];
+		_crate additemcargoGlobal ["optic_Arco", 2];
+		_crate addWeaponCargoGlobal ["MultiGun", 1];
+		_crate additemcargoGlobal ["ItemGoldBar10oz", 1];
+		_crate additemcargoGlobal ["ItemSilverBar", 2];
+		_crate addMagazineCargoGlobal ["EnergyPack", 4];
+		_crate additemcargoGlobal ["NVG_EPOCH", 2];
+		_crate additemcargoGlobal ["ItemGPS", 2];
+		_crate additemcargoGlobal ["Rangefinder", 1];
+		_crate additemcargoGlobal ["FAK", 9];
+		_crate additemcargoGlobal ["Repair_EPOCH", 1];
+		_crate additemcargoGlobal ["Defib_EPOCH", 1];
+		_crate additemcargoGlobal ["Heal_EPOCH", 2];
+		_crate additemcargoGlobal ["jerrycan_epoch", 2];
+		_crate addbackpackcargoGlobal ["B_Carryall_cbr", 1];
+	};
+
+	case 9:{	//DMRs, AR and Chainsaw
+		_wpn = _DMRs select (random (count _DMRs -1));
+		_crate addWeaponCargoGlobal [(_wpn select 0), 1];
+		_crate addMagazineCargoGlobal [(_wpn select 1), 12];
+		_wpn = _MMDMR select (random (count _MMDMR -1));
+		_crate addWeaponCargoGlobal [(_wpn select 0), 1];
+		_crate addMagazineCargoGlobal [(_wpn select 1), 12];
+		_wpn = _riflesGL select (random (count _riflesGL -1));
+		_crate addWeaponCargoGlobal [(_wpn select 0), 2];
+		_crate addMagazineCargoGlobal [(_wpn select 1), 20];
+		_crate addMagazineCargoGlobal ["1Rnd_HE_Grenade_shell", 10];
+		_crate additemcargoGlobal [_sniperOptics select (random (count _sniperOptics -1)), 1];
+		_crate additemcargoGlobal [_sniperOptics select (random (count _sniperOptics -1)), 1];
+		_crate additemcargoGlobal ["NVG_EPOCH", 2];
+		_crate additemcargoGlobal ["ItemGPS", 2];
+		_crate additemcargoGlobal ["Rangefinder", 2];
+		_crate additemcargoGlobal ["FAK", 8];
+		//_crate additemcargoGlobal ["CinderBlocks", 16];
+		_crate additemcargoGlobal ["ChainSaw", 1];
+		_crate additemcargoGlobal ["ItemMixOil", 2];
+		_crate additemcargoGlobal ["jerrycan_epoch", 2];
+		_crate additemcargoGlobal ["EnergyPackLg", 4];
+		_crate additemcargoGlobal ["MortarBucket", 6];
+		//_crate additemcargoGlobal ["ItemCorrugated", 6];
+		_crate addbackpackcargoGlobal ["B_Carryall_cbr", 1];
+	};
+	
+		case 10:{	// Building, Tier 1
+		_lewt = [
+		[2,"CircuitParts",1,2,2],
+		[2,"PartPlankPack",1,6,4],
+		[2,"MortarBucket",1,2,2],
+		[2,"CinderBlocks",1,4,4]
+		];
+		[_crate, _lewt] call SEM_fnc_setVehicleLoadout;
 	};
 };
