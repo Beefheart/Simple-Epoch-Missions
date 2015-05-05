@@ -39,6 +39,8 @@ class CfgFunctions {
 			class randomPos {};
 			class crateLoot {};
 			class boxLoot {};
+			class addVehicleItem {};
+			class setVehicleLoadout {};
 		};
 		
 		class SEM_AIscripts
